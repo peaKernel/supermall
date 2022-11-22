@@ -1,11 +1,10 @@
 <template>
   <div class="wrapper" ref="aaaa">
-    <div>
       <!--1.无论是否设置click:false, button都可以点击-->
-      <button >按钮</button>
+      <!-- <button >按钮</button> -->
 
       <!--2.必须设置click:true, 那么div才能监听点击-->
-      <div >呵呵呵呵</div>
+      <!-- <div >呵呵呵呵</div> -->
 
       <ul class="content">
         <li>分类列表1</li>
@@ -109,17 +108,44 @@
         <li>分类列表99</li>
         <li>分类列表100</li>
       </ul>
-    </div>
   </div>
 </template>
 
 <script>
+  import BScroll from 'better-scroll'
+  
+
   export default {
     name: "Category",
+    data() {
+      return {
+        scroll: null
+      } 
+    },
+    mounted() {   //别在created中使用，因为created中使用的时候我们的组件还没有挂在，只是创建了
+      
+      this.scroll = new BScroll(document.querySelector('.wrapper'), {
+        probeType: 3,
+        pullUpLoad: true
+      })
+
+      this.scroll.on('scroll', (position) => {
+        console.log(position);
+      })
+
+      this.scroll.on('pullingUp', () => {
+        console.log('上拉加载');
+      })
+    }
 
   }
 </script>
 
 <style scoped>
+  .wrapper {
+    height: 150px;
+    background-color: #f00;
 
+    overflow: hidden;
+  }
 </style>
